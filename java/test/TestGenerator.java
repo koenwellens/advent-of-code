@@ -55,7 +55,11 @@ public class TestGenerator<S extends DaySolution<R>, R> {
                 .map(testConfig -> dynamicTest(
                         testConfig.testLabel(),
                         null,
-                        () -> assertEquals(testConfig.expectation, testConfig.execution.apply(testConfig.inputFilePath))));
+                        () -> {
+                            System.out.println(testConfig.testLabel());
+                            assertEquals(testConfig.expectation, testConfig.execution.apply(testConfig.inputFilePath));
+                            System.out.println();
+                        }));
     }
 
     public class ExecutionConfig {
@@ -84,7 +88,7 @@ public class TestGenerator<S extends DaySolution<R>, R> {
         @NotNull
         private <R2> ExpectationConfig<R2> part(int partNr, BiFunction<S, Path, R2> daySolutionMethod) {
             testConfig.execution = path -> daySolutionMethod.apply(testInstance, path);
-            testConfig.executionLabel = "part " + partNr;
+            testConfig.executionLabel = testInstance.getClass().getSimpleName() + " :: PART " + partNr;
             return new ExpectationConfig<>(testConfig);
         }
     }
@@ -112,7 +116,8 @@ public class TestGenerator<S extends DaySolution<R>, R> {
         String inputLabel;
 
         String testLabel() {
-            return executionLabel + " " + inputLabel + " should be " + expectation;
+            String optionalNewLine = expectation instanceof String && ((String) expectation).contains("\n") ? "\n" : "";
+            return executionLabel + " running against " + inputLabel.toUpperCase() + " should be " + optionalNewLine + expectation;
         }
     }
 }
