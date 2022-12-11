@@ -92,7 +92,6 @@ public class Day08 implements DaySolution<Integer> {
                         ctrLeft++;
                         colToCheck--;
                     }
-                    System.out.println("" + rowNr + ", " + colNr + " left " + ctrLeft);
 
                     colToCheck = colNr + 1;
                     lastCheckedHeight = -1;
@@ -102,7 +101,6 @@ public class Day08 implements DaySolution<Integer> {
                         ctrRight++;
                         colToCheck++;
                     }
-                    System.out.println("" + rowNr + ", " + colNr + " right " + ctrRight);
 
                     int rowToCheck = rowNr - 1;
                     lastCheckedHeight = -1;
@@ -112,7 +110,6 @@ public class Day08 implements DaySolution<Integer> {
                         ctrUp++;
                         rowToCheck--;
                     }
-                    System.out.println("" + rowNr + ", " + colNr + " up " + ctrUp);
 
                     rowToCheck = rowNr + 1;
                     lastCheckedHeight = -1;
@@ -122,7 +119,6 @@ public class Day08 implements DaySolution<Integer> {
                         ctrDown++;
                         rowToCheck++;
                     }
-                    System.out.println("" + rowNr + ", " + colNr + " down " + ctrDown);
 
                     int scenicScore = ctrLeft * ctrRight * ctrUp * ctrDown;
                     if (scenicScore > winnerScenicScore) {

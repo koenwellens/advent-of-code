@@ -28,7 +28,7 @@ public class Grouper {
         return currentGroup;
     }
 
-    static class Group {
+    class Group {
 
         private final List<String> items = new ArrayList<>();
 
@@ -38,6 +38,10 @@ public class Grouper {
 
         public List<String> items() {
             return items;
+        }
+
+        public boolean isComplete() {
+            return groupCompletePredicate.test(this);
         }
     }
 }

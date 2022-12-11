@@ -32,7 +32,9 @@ public class Day09 implements DaySolution<Long> {
         int[][] ropePositions = new int[ropeLength][2];
         fill(ropePositions, new int[]{0, 0});
 
-        // realisatie: elke keer Tail zich moet verplaatsen neemt ie de plaats van Head in - to verify
+        // FOUTE redenring: elke keer Tail zich moet verplaatsen neemt ie de plaats van Head in - to verify
+        // dit bleek enkel te werken voor het geval van 2 nodes omdat de eerste slechts 4 bewegingen kan uitvoeren
+        // node 2 kan echter 8 verschillende verplaatsingen doen om te volgen, waardoor voor node 3 deze stelling niet meer toepasbaar is
         try (Stream<String> lines = lines(ropeMovementsInputFilePath)) {
             long uniqueTailPositionsCount = lines
                     .flatMap(this::parseToDirectionVectors)

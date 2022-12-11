@@ -25,7 +25,7 @@ public class Day03 implements DaySolution<Integer> {
         Grouper grouper = Grouper.groupByItemCount(3);
         try (Stream<String> lines = lines(inputFilePath)) {
             int sum = lines.map(grouper::add)
-                    .filter(group -> group.items().size() == 3)
+                    .filter(Grouper.Group::isComplete)
                     .map(group -> group.items().get(0)
                             .chars().mapToObj(c -> "" + (char) c)
                             .filter(chr -> group.items().get(1).contains(chr))
