@@ -1,6 +1,8 @@
 # General (Mac, IntelliJ)
 .idea
 .DS_Store
+*.iml
+out
 
 # Compiled class file
 *.class
@@ -31,3 +33,4 @@ hs_err_pid*
 #compiled typescript files
 *.js
 node_modules
+*.map
