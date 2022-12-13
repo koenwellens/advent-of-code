@@ -1,4 +1,4 @@
 ## Commands met juiste targets en heap size
-`tsc main.ts --target esnext --module commonjs --esModuleInterop true`
+`tsc given-up-main.ts --target esnext --module commonjs --esModuleInterop true`
 
-`node main.js --max-old-space-size 4096 `
+`node given-up-main.js --max-old-space-size 4096 `
