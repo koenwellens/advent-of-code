@@ -24,9 +24,10 @@ public class Day11 implements DaySolution<Long> {
 
     private long monkeyBusiness(Path inputFilePath, int numberOfRounds, boolean worryLevelDropsBetweenInspections) {
         try (Stream<String> lines = lines(inputFilePath)) {
-            Grouper monkeyGrouper = Grouper.groupByItemCount(6);
+            Grouper<String> monkeyGrouper = Grouper.groupByItemCount(6);
             AtomicLong reductionFactor = new AtomicLong(1);
-            List<Monkey> monkeys = lines.filter(s -> !s.isEmpty())
+            List<Monkey> monkeys = lines
+                    .filter(s -> !s.isEmpty())
                     .map(monkeyGrouper::add)
                     .filter(Grouper.Group::isComplete)
                     .map(groupedLines -> parseMonkey(groupedLines.items(), reductionFactor))

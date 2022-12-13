@@ -7,22 +7,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Day12 implements DaySolution<Integer> {
 
     @Override
     public Integer part1(Path inputFilePath) {
+        return findShortestPathToANodeMatching(inputFilePath, HeightNode::isStartNode);
+    }
+
+    @Override
+    public Integer part2(Path inputFilePath) {
+        return findShortestPathToANodeMatching(inputFilePath, heightNode -> heightNode.height == 1);
+    }
+
+    private int findShortestPathToANodeMatching(Path inputFilePath, Predicate<HeightNode> pathStartPredicate) {
         try (Stream<String> lines = lines(inputFilePath)) {
             HeightNode[][] heightMap = parseMapHeights(lines);
 
             HeightNode endNode = null;
-            HeightNode startNode = null;
             for (int row = 0; row < heightMap.length; row++) {
                 for (int col = 0; col < heightMap[row].length; col++) {
                     HeightNode node = heightMap[row][col];
-                    if (node.isStartNode())
-                        startNode = node;
                     if (node.isEndNode())
                         endNode = node;
 
@@ -42,14 +49,15 @@ public class Day12 implements DaySolution<Integer> {
             }
 
             Set<HeightNode> nodesToProcess = Set.of(endNode);
-            while (!nodesToProcess.contains(startNode)) {
+            while (nodesToProcess.stream().noneMatch(pathStartPredicate)) {
                 System.out.println("Processing " + nodesToProcess.size() + " nodes at distance " + nodesToProcess.iterator().next().getDistance());
                 nodesToProcess = setDistancesForNeighboursOfNode(nodesToProcess);
             }
 
-            System.out.println("Shortest path distance is " + startNode.distance);
+            HeightNode matchingNode = nodesToProcess.stream().filter(pathStartPredicate).findFirst().orElseThrow();
+            System.out.println("Shortest path distance is " + matchingNode.distance);
 
-            return startNode.distance;
+            return matchingNode.distance;
         }
     }
 
@@ -73,8 +81,13 @@ public class Day12 implements DaySolution<Integer> {
         AtomicInteger col = new AtomicInteger();
         return lines
                 .map(line -> Arrays.stream(line.split(""))
-                        .map(single -> single.equals("S") ? 0 : single.equals("E") ? 27 : single.charAt(0) - 'a' + 1)
-                        .map(height -> new HeightNode(height, row.get(), col.getAndIncrement()))
+                        .map(single -> {
+                            boolean startNode = single.equals("S");
+                            boolean endNode = single.equals("E");
+                            int height = startNode ? 1 : endNode ? 26 : single.charAt(0) - 'a' + 1;
+                            return new HeightNode(height, row.get(), col.getAndIncrement(), startNode, endNode);
+                        })
+//                        .map(height -> new HeightNode(height, row.get(), col.getAndIncrement()))
                         .toArray(HeightNode[]::new))
                 .peek(r -> row.incrementAndGet())
                 .peek(r -> col.set(0))
@@ -96,14 +109,18 @@ public class Day12 implements DaySolution<Integer> {
         private final List<HeightNode> outgoingNodes = new ArrayList<>();
         private final int row;
         private final int col;
+        private final boolean startNode;
+        private final boolean endNode;
         private List<HeightNode> precedingNodes = new ArrayList<>();
 
         private int distance = -1;
 
-        public HeightNode(int height, int row, int col) {
+        public HeightNode(int height, int row, int col, boolean startNode, boolean endNode) {
             this.height = height;
             this.row = row;
             this.col = col;
+            this.startNode = startNode;
+            this.endNode = endNode;
         }
 
         public void addOutgoingNode(HeightNode node) {
@@ -118,11 +135,11 @@ public class Day12 implements DaySolution<Integer> {
         }
 
         boolean isStartNode() {
-            return height == 0;
+            return startNode;
         }
 
         boolean isEndNode() {
-            return height == 27;
+            return endNode;
         }
 
         @Override

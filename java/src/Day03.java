@@ -22,7 +22,7 @@ public class Day03 implements DaySolution<Integer> {
 
     @Override
     public Integer part2(Path inputFilePath) {
-        Grouper grouper = Grouper.groupByItemCount(3);
+        Grouper<String> grouper = Grouper.groupByItemCount(3);
         try (Stream<String> lines = lines(inputFilePath)) {
             int sum = lines.map(grouper::add)
                     .filter(Grouper.Group::isComplete)
