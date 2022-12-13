@@ -2,25 +2,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class Grouper {
-    private final Predicate<Group> groupCompletePredicate;
-    private Group currentGroup;
+public class Grouper<T> {
+    private final Predicate<Group<T>> groupCompletePredicate;
+    private Group<T> currentGroup;
 
-    public static Grouper groupBy(Predicate<Group> groupCompletePredicate) {
-        return new Grouper(groupCompletePredicate);
+    public static <I> Grouper<I> groupBy(Predicate<Group<I>> groupCompletePredicate) {
+        return new Grouper<>(groupCompletePredicate);
     }
 
-    public Grouper(Predicate<Group> groupCompletePredicate) {
+    public Grouper(Predicate<Group<T>> groupCompletePredicate) {
         this.groupCompletePredicate = groupCompletePredicate;
     }
 
-    public static Grouper groupByItemCount(int count) {
+    public static <T> Grouper<T> groupByItemCount(int count) {
         return groupBy(g -> g.items.size() == count);
     }
 
-    public Group add(String string) {
+    public Group<T> add(T string) {
         if (currentGroup == null || groupCompletePredicate.test(currentGroup)) {
-            currentGroup = new Group();
+            currentGroup = new Group<>(groupCompletePredicate);
         }
 
         currentGroup.add(string);
@@ -28,15 +28,20 @@ public class Grouper {
         return currentGroup;
     }
 
-    class Group {
+    static class Group<T> {
 
-        private final List<String> items = new ArrayList<>();
+        private final List<T> items = new ArrayList<>();
+        private final Predicate<Group<T>> groupCompletePredicate;
 
-        void add(String string) {
+        public Group(Predicate<Group<T>> groupCompletePredicate) {
+            this.groupCompletePredicate = groupCompletePredicate;
+        }
+
+        void add(T string) {
             items.add(string);
         }
 
-        public List<String> items() {
+        public List<T> items() {
             return items;
         }
 
