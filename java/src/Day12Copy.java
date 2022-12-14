@@ -1,8 +1,10 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +46,10 @@ public class Day12Copy implements DaySolution<Integer> {
             PathCollector pathCollector = new PathCollector(heightMap.length, heightMap[0].length);
             calculatePathLengths(startNode, endNode, pathCollector);
 
+
+
+            Comparator<BigDecimal> comp = Comparator.nullsFirst(Comparator.naturalOrder());
+            comp.compare(new BigDecimal("3"), BigDecimal.ZERO);
 
             return pathCollector.shortestPathLength - 1; // #vertices = #nodes - 1
         }
@@ -107,10 +113,6 @@ public class Day12Copy implements DaySolution<Integer> {
                 System.out.println();
             }
         }
-
-        public boolean noPathRegistered() {
-            return !pathRegistered;
-        }
     }
 
     private void calculatePathLengths(HeightNode node, HeightNode endNode, PathCollector pathCollector) {
@@ -139,20 +141,8 @@ public class Day12Copy implements DaySolution<Integer> {
                 .toArray(HeightNode[][]::new);
     }
 
-    private static int[] findHighestNode(HeightNode[][] heightMap) {
-        for (int i = 0; i < heightMap.length; i++) {
-            for (int j = 0; j < heightMap[i].length; j++) {
-                if (heightMap[i][j].height == 27)
-                    return new int[]{i, j};
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
     private static class HeightNode {
         private final int height;
-        private final Map<String, Integer> pathLengths = new HashMap<>();
-        //        private int shortestPathLength;
         private final List<HeightNode> outgoingNodes = new ArrayList<>();
         private final List<HeightNode> blockedNodes = new ArrayList<>();
         private final int row;

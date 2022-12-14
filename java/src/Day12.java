@@ -32,9 +32,8 @@ public class Day12 implements DaySolution<Integer> {
                     HeightNode node = heightMap[row][col];
                     if (node.isEndNode())
                         endNode = node;
-
                     if (!node.isEndNode()) {
-                        for (int[] diff : List.of(new int[]{0, 1}, new int[]{0, -1}, new int[]{1, 0}, new int[]{-1, 0})) {
+                        for (int[] diff : List.of(new int[]{1, 0}, new int[]{-1, 0}, new int[]{0, 1}, new int[]{0, -1})) {
                             int nextNodeRow = row + diff[0];
                             int nextNodeCol = col + diff[1];
                             if (nextNodeRow > -1
@@ -54,6 +53,14 @@ public class Day12 implements DaySolution<Integer> {
                 nodesToProcess = setDistancesForNeighboursOfNode(nodesToProcess);
             }
 
+            // print distances for each node
+//            for (int row = 0; row < heightMap.length; row++) {
+//                for (int col = 0; col < heightMap[row].length; col++) {
+//                    System.out.printf("%3s|", heightMap[row][col].distance == -1 ? "" : heightMap[row][col].distance);
+//                }
+//                System.out.println();
+//            }
+
             HeightNode matchingNode = nodesToProcess.stream().filter(pathStartPredicate).findFirst().orElseThrow();
             System.out.println("Shortest path distance is " + matchingNode.distance);
 
@@ -64,12 +71,14 @@ public class Day12 implements DaySolution<Integer> {
     private Set<HeightNode> setDistancesForNeighboursOfNode(Set<HeightNode> nodesToProcess) {
         Set<HeightNode> processedNodes = new HashSet<>();
         for (HeightNode nodeToProcess : nodesToProcess) {
+            System.out.println("Processing node " + nodeToProcess);
             for (HeightNode precedingNode : nodeToProcess.precedingNodes) {
                 precedingNode.setDistanceVia(nodeToProcess);
                 processedNodes.add(precedingNode);
             }
             for (HeightNode outgoingNode : nodeToProcess.outgoingNodes) {
                 outgoingNode.precedingNodes.remove(nodeToProcess);
+                System.out.printf("\tRemoved %s as preceding node of %s%n", nodeToProcess, outgoingNode);
             }
         }
         return processedNodes;
@@ -87,21 +96,10 @@ public class Day12 implements DaySolution<Integer> {
                             int height = startNode ? 1 : endNode ? 26 : single.charAt(0) - 'a' + 1;
                             return new HeightNode(height, row.get(), col.getAndIncrement(), startNode, endNode);
                         })
-//                        .map(height -> new HeightNode(height, row.get(), col.getAndIncrement()))
                         .toArray(HeightNode[]::new))
                 .peek(r -> row.incrementAndGet())
                 .peek(r -> col.set(0))
                 .toArray(HeightNode[][]::new);
-    }
-
-    private static int[] findHighestNode(HeightNode[][] heightMap) {
-        for (int i = 0; i < heightMap.length; i++) {
-            for (int j = 0; j < heightMap[i].length; j++) {
-                if (heightMap[i][j].height == 27)
-                    return new int[]{i, j};
-            }
-        }
-        throw new IllegalArgumentException();
     }
 
     private static class HeightNode {
@@ -157,7 +155,11 @@ public class Day12 implements DaySolution<Integer> {
             int calculatedDistance = node.getDistance() + 1;
             this.precedingNodes.remove(node);
             if (this.distance == -1 || calculatedDistance < this.distance)
+            {
+                System.out.printf("\tSetting distance of %s to %s%n", this, calculatedDistance);
                 this.distance = calculatedDistance;
+            }
+            System.out.printf("\tRemoved %s from outgoing links of %s%n", node, this);
         }
     }
 
