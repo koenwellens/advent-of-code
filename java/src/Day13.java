@@ -114,9 +114,9 @@ public class Day13 implements DaySolution<Integer> {
                             : compareFirstElements;
                 }
             } else if (p1 instanceof Integer int1 && p2 instanceof LinkedList<?> list2) {
-                return compare(new LinkedList<>(linkedListOf(int1)), list2);
+                return compare(linkedListOf(int1), list2);
             } else if (p1 instanceof LinkedList<?> list1 && p2 instanceof Integer int2) {
-                return compare(new LinkedList<>(list1), linkedListOf(int2));
+                return compare(list1, linkedListOf(int2));
             } else
                 throw new IllegalArgumentException("item1=" + p1.getClass() + "' item2=" + p2.getClass());
         }
