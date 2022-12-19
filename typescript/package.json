@@ -15,6 +15,7 @@
     "day13": "tsc challenge13/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge13/main.js",
     "day14": "tsc challenge14/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge14/main.js",
     "day15": "tsc challenge15/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge15/main.js",
+    "day16": "tsc challenge16/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge16/main.js",
 
     "compare-inputs:compile": "tsc compare-inputs.ts --types node",
     "compare-inputs:run": "node compare-inputs.js"
