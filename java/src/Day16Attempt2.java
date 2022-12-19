@@ -93,17 +93,17 @@ public class Day16Attempt2 implements DaySolution<Integer> {
             return 0;
         }
         if (remainingValves.isEmpty()) {
-            System.out.printf("%s minutes spent%n", maxMinutes);
-            System.out.printf("Flow is %s%n", totalFlow);
-            System.out.println();
+//            System.out.printf("%s minutes spent%n", maxMinutes);
+//            System.out.printf("Flow is %s%n", totalFlow);
+//            System.out.println();
             return totalFlow * (maxMinutes - minutesSpent);
         }
         return remainingValves.stream().mapToInt(nextValve -> {
                     int distanceToNextValve = valve.getDistance(nextValve);
                     int nextMinutesSpent = Math.min(minutesSpent + distanceToNextValve + 1, maxMinutes);
-                    System.out.printf("Moving from %s to %s and opening it, %s minutes spent%n", valve.id, nextValve.id, nextMinutesSpent);
-                    System.out.printf("Flow was %s, now %s%n", totalFlow, totalFlow + nextValve.flowRate);
-                    System.out.println();
+//                    System.out.printf("Moving from %s to %s and opening it, %s minutes spent%n", valve.id, nextValve.id, nextMinutesSpent);
+//                    System.out.printf("Flow was %s, now %s%n", totalFlow, totalFlow + nextValve.flowRate);
+//                    System.out.println();
                     return maxPressureReleased(
                             nextValve,
                             nextMinutesSpent,
