@@ -1,3 +1,6 @@
+import common.Coordinate;
+import common.Vector;
+
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +15,13 @@ public class Day14 implements DaySolution<Integer> {
 
     @Override
     public Integer part1(Path inputFilePath) {
-        Function<CaveMap, Predicate<CaveNode>> stopConditionFactory = caveMap -> caveNode -> caveNode.getCoordinate().y > caveMap.lowestRockDepth();
+        Function<CaveMap, Predicate<CaveNode>> stopConditionFactory = caveMap -> caveNode -> caveNode.getCoordinate().y() > caveMap.lowestRockDepth();
         return extracted(inputFilePath, stopConditionFactory);
     }
 
     @Override
     public Integer part2(Path inputFilePath) {
-        Function<CaveMap, Predicate<CaveNode>> stopConditionFactory = caveMap -> caveNode -> caveNode.getCoordinate().y == 0 && caveNode.type.equals("sand");
+        Function<CaveMap, Predicate<CaveNode>> stopConditionFactory = caveMap -> caveNode -> caveNode.getCoordinate().y() == 0 && caveNode.type.equals("sand");
         return extracted(inputFilePath, stopConditionFactory);
     }
 
@@ -49,7 +52,7 @@ public class Day14 implements DaySolution<Integer> {
 
         public CaveNode getNodeAt(Coordinate coordinate) {
             return map.computeIfAbsent(coordinate, co ->
-                    co.y == floorDepth()
+                    co.y() == floorDepth()
                             ? new CaveNode("rock", co, this)
                             : new CaveNode("air", co, this));
         }
@@ -84,9 +87,9 @@ public class Day14 implements DaySolution<Integer> {
                 caveMap.add(rock);
                 previousRockCoordinate = rock.coordinate;
             } else {
-                Vector directionVector = previousRockCoordinate.x == rockCoordinates.x
-                        ? new Vector(0, (rockCoordinates.y - previousRockCoordinate.y) / Math.abs(rockCoordinates.y - previousRockCoordinate.y))
-                        : new Vector((rockCoordinates.x - previousRockCoordinate.x) / Math.abs(rockCoordinates.x - previousRockCoordinate.x), 0);
+                Vector directionVector = previousRockCoordinate.x() == rockCoordinates.x()
+                        ? new Vector(0, (rockCoordinates.y() - previousRockCoordinate.y()) / Math.abs(rockCoordinates.y() - previousRockCoordinate.y()))
+                        : new Vector((rockCoordinates.x() - previousRockCoordinate.x()) / Math.abs(rockCoordinates.x() - previousRockCoordinate.x()), 0);
 
                 while (!previousRockCoordinate.equals(rockCoordinates)) {
                     Coordinate newCoordinate = previousRockCoordinate.apply(directionVector);
@@ -130,16 +133,6 @@ public class Day14 implements DaySolution<Integer> {
                     nextAvailableNode.get().dropSand(sand);
             }
         }
-    }
-
-    private record Coordinate(int x, int y) {
-        public Coordinate apply(Vector vector) {
-            return new Coordinate(x + vector.x, y + vector.y);
-        }
-    }
-
-    private record Vector(int x, int y) {
-
     }
 
     private static class Sand {
