@@ -27,7 +27,7 @@ const computeShortestPaths = (valves, nbOfValves, {name, flowRate, tunnels}) => 
         ...res, [valve]: {
             distance: 1,
             flowRate: valves[valve].flowRate,
-            via: [valve],
+            via: [name, valve],
         }
     }), {[name]: {distance: 0, flowRate: flowRate}});
 
@@ -64,76 +64,128 @@ const parse = str => {
     return parsedStr;
 }
 
-const computeNextRoute = (valves, valve, openedValves) => {
-    let bestValve = valve.tunnels[0];
-    let bestDistance = valve.shortestPaths[bestValve].distance;
-    let bestFlowRate = valve.shortestPaths[bestValve].flowRate;
-    for (let tunnel of Object.getOwnPropertyNames(valve.shortestPaths)) {
-        const path = valve.shortestPaths[tunnel];
-        if (tunnel !== valve.name && path.flowRate !== 0 && openedValves.indexOf(tunnel) < 0) {
-            if (bestDistance === -1) {
-                bestDistance = path.distance;
-                bestFlowRate = path.flowRate;
-                bestValve = tunnel;
-            } else {
-                if ((path.distance > bestDistance && path.flowRate > bestFlowRate * (path.distance - bestDistance + 1))
-                    || (path.distance <= bestDistance && path.flowRate * (bestDistance - path.distance + 1) > bestFlowRate)) {
-                    bestFlowRate = path.flowRate;
-                    bestDistance = path.distance;
-                    bestValve = tunnel;
-                }
-            }
-        }
-    }
-
-    return valve.shortestPaths[bestValve].via;
-}
-
-const runRunRun = (valves, startValve) => {
-    const openValves = [];
+const pressureForRoutes = (valves, routes, maxTime) => {
+    const openedValves = [];
     let pressure = 0;
-    let currentTunnel = valves[startValve];
-    const visitedValves = [currentTunnel];
-    for (let time = 1; time <= 30; time++) {
-        console.log(`\n== Minute ${time} ==`);
-        pressure += openValves.map(v => valves[v].flowRate).reduce((res, flowRate) => res + flowRate, 0);
 
-        if (!openValves.length) {
-            console.log('No valves are open.');
-        } else {
-            console.log(`Valves ${openValves.join(', ')} are open. Releasing ${openValves.map(v => valves[v].flowRate).reduce((res, flowRate) => res + flowRate, 0)} pressure.`);
-        }
-
-        let {name, flowRate} = currentTunnel;
-        if (flowRate !== 0 && openValves.indexOf(name) < 0) {
-            console.log(`You open valve ${currentTunnel.name}`);
-            openValves.push(currentTunnel.name);
-        } else {
-            const route = computeNextRoute(valves, currentTunnel, openValves);
-            currentTunnel = valves[route[route.length - 1]];
-            time += route.length - 1;
-            for (let i = 0; i < route.length - 1; i++) {
-                pressure += openValves.map(v => valves[v].flowRate).reduce((res, flowRate) => res + flowRate, 0);
+    let offsets = routes.map(() => 0);
+    let previousValves = routes.map(() => '');
+    for (let time = 0; time < maxTime; time++) {
+        for(let r = 0; r < routes.length; r++) {
+            const route = routes[r];
+            let offset = offsets[r];
+            const previousValve = previousValves[r];
+            if (time + offset < route.length) {
+                let valve = route[time + offset];
+                if (valve === previousValve && openedValves.indexOf(valve) < 0) {
+                    openedValves.push(valve);
+                } else if (valve === previousValve) {
+                    offset = offset + 1;
+                    offsets[r] = offset;
+                    valve = route[time + offset];
+                }
+                previousValves[r] = valve;
             }
-            route.forEach(r => visitedValves.push(r));
-            console.log(`You move to valve ${currentTunnel.name} after following route ${JSON.stringify(route)}`);
+
+            if (time + offset === route.length && openedValves.indexOf(route[route.length - 1]) < 0) {
+                openedValves.push(route[route.length - 1]);
+            }
         }
+
+        pressure += openedValves.reduce((res, v) => res + valves[v].flowRate, 0);
     }
 
     return pressure;
 };
 
+const computePressure = (valves, routes, maxTime) => {
+    let maximumPressure = -1;
+    for (let route of routes) {
+        const pressure = pressureForRoutes(valves, [route.reduce((res, r) => [...res, ...r], [])], maxTime);
+        if (pressure > maximumPressure) {
+            maximumPressure = pressure;
+        }
+    }
+    return maximumPressure;
+}
+
+const computeRoutes = (valves, currentValve, previousRoutes, maxLength): string[][][] => {
+    if (previousRoutes.reduce((res, r) => [...res, ...r], []).length < maxLength) {
+        const routes: string[][][] = Object.getOwnPropertyNames(currentValve.shortestPaths)
+            .map(name => currentValve.shortestPaths[name])
+            .filter(({flowRate, distance}) => flowRate !== 0 && distance > 0)
+            .reduce((res, {via}) => [...res, via], [])
+            .filter(route => !previousRoutes.some(pr => pr[pr.length - 1] === route[route.length - 1]))
+            .map(route => previousRoutes.length ? [...previousRoutes, route] : [route])
+            .map(x => JSON.stringify(x))
+            .filter((r, idx, arr) => arr.indexOf(r) === idx)
+            .map(r => JSON.parse(r));
+
+        if (routes.length) {
+            let result: string[][][] = [];
+            for (let route of routes) {
+                const lastRoute = route[route.length - 1];
+                const nextRoutes = computeRoutes(valves, valves[lastRoute[lastRoute.length - 1]], route, maxLength);
+                result = [
+                    ...result,
+                    ...nextRoutes,
+                ];
+            }
+
+            return result;
+        }
+    }
+
+    return [previousRoutes];
+}
+
 const exampleValves = parse(example);
-const examplePressure = runRunRun(exampleValves, 'AA');
+const exampleRoutes = computeRoutes(exampleValves, exampleValves['AA'], [], 30);
+const examplePressure = computePressure(exampleValves, exampleRoutes, 30);
 console.log('Example 1:', examplePressure);
 
 const inputValves = parse(input);
-const inputPressure = runRunRun(inputValves, 'AA');
-// 975 is too low
-// Niet 1110, 1126, 1578, 1454
+const inputRoutes = computeRoutes(inputValves, inputValves['AA'], [], 30);
+const inputPressure = computePressure(inputValves, inputRoutes, 30);
 console.log('Input 1:', inputPressure);
 
 const jurgenInputValves = parse(jurgenInput);
-const jurgenInputPressure = runRunRun(jurgenInputValves, 'AA');
-// 2183
-console.log('Jurgen input 1:', jurgenInputPressure);
+const jurgenRoutes = computeRoutes(jurgenInputValves, jurgenInputValves['AA'], [], 30);
+const jurgenPressure = computePressure(jurgenInputValves, jurgenRoutes, 30);
+console.log('Jurgen input 1:', jurgenPressure);
+
+const startsSameAs = (arr1, arr2) => {
+    return arr1[0][arr1[0].length - 1] === arr2[0][arr2[1].length - 1]
+        || arr1[1][arr1[1].length - 1] === arr2[1][arr2[1].length - 1]
+        || arr1[1][arr1[1].length - 1] === arr2[0][arr2[0].length - 1]
+        || arr1[0][arr1[0].length - 1] === arr2[1][arr2[1].length - 1];
+}
+
+const computePressureForTwoRoutes = (valves, routes, maxTime) => {
+    let maximumPressure = -1;
+    for (let i = 0; i < routes.length; i++) {
+        for (let j = i + 1; j < routes.length; j++) {
+            if (!startsSameAs(routes[i], routes[j])) {
+                const routeA = routes[i].reduce((res, r) => [...res, ...r], []);
+                const routeB = routes[j].reduce((res, r) => [...res, ...r], []);
+                const pressure = pressureForRoutes(valves, [routeA, routeB], maxTime);
+                if (pressure > maximumPressure) {
+                    maximumPressure = pressure;
+                }
+            }
+        }
+    }
+    return maximumPressure;
+}
+
+const shorterExampleRoutes = computeRoutes(exampleValves, exampleValves['AA'], [], 12);
+const examplePressureForTwo = computePressureForTwoRoutes(exampleValves, shorterExampleRoutes, 26);
+console.log('Example 2:', examplePressureForTwo);
+
+const shorterInputRoutes = computeRoutes(inputValves, inputValves['AA'], [], 18);
+const inputPressureForTwo = computePressureForTwoRoutes(inputValves, shorterInputRoutes, 26);
+console.log('Input 2:', inputPressureForTwo);
+
+const shorterJurgenRoutes = computeRoutes(jurgenInputValves, jurgenInputValves['AA'], [], 18);
+const jurgenPressureForTwo = computePressureForTwoRoutes(jurgenInputValves, shorterJurgenRoutes, 26);
+console.log('Jurgen Input 2:', jurgenPressureForTwo);
