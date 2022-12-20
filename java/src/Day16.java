@@ -29,7 +29,7 @@ public class Day16 implements DaySolution<Integer> {
             ValvePathWalker valvePathWalker = new ValvePathWalker(system);
             valvePathWalker.startWalking("AA");
 
-            System.out.println("Path ");
+            System.out.println("Path relieving most pressure is " + valvePathWalker.maxPressureRelievedPath.stream().map(ValvePathWalker.ValvePathNode::valveId).toList());
 
             return valvePathWalker.maxPressureRelieved;
         }
@@ -52,6 +52,7 @@ public class Day16 implements DaySolution<Integer> {
         private int maxPressureRelieved = 0;
 
         private final LinkedList<ValvePathNode> path = new LinkedList<>();
+        private List<ValvePathNode> maxPressureRelievedPath;
 
         ValvePathWalker(ValvesAndTunnels system) {
             this.system = system;
@@ -59,7 +60,7 @@ public class Day16 implements DaySolution<Integer> {
 
         void startWalking(String initialValveId) {
             Valve initialValve = system.getValve(initialValveId);
-            path.add(new ValvePathNode(0, 0));
+            path.add(new ValvePathNode("AA", 0, 0));
             doSomething(0, new Traveller(initialValve, List.of()));
         }
 
@@ -68,7 +69,10 @@ public class Day16 implements DaySolution<Integer> {
             if (minutesSpent == 30) {
 //                System.out.println("== After Minute 30 ==");
 //                System.out.printf("\tPressure released in current path is %s%n", previousPathNode.totalPressureRelieved);
-                maxPressureRelieved = max(maxPressureRelieved, previousPathNode.totalPressureRelieved);
+                if(previousPathNode.totalPressureRelieved > maxPressureRelieved) {
+                    maxPressureRelieved = previousPathNode.totalPressureRelieved;
+                    maxPressureRelievedPath = List.copyOf(path);
+                }
                 return;
             }
 
@@ -86,6 +90,7 @@ public class Day16 implements DaySolution<Integer> {
                 rollback();
             } else if (system.allValvesAreOpen()) {
                 path.add(new ValvePathNode(
+                        previousPathNode.valveId(),
                         previousPathNode.totalFlowRate,
                         previousPathNode.totalPressureRelieved + previousPathNode.totalFlowRate));
                 doSomething(minutesSpent + 1, new Traveller(traveller.currentValve, List.of()));
@@ -95,6 +100,7 @@ public class Day16 implements DaySolution<Integer> {
 //                System.out.printf("\tOpening %s (flowrate %s)%n", currentValve.id, currentValve.flowRate);
                 system.open(traveller.currentValve);
                 path.add(new ValvePathNode(
+                        traveller.currentValve.id,
                         previousPathNode.totalFlowRate + traveller.currentValve.flowRate,
                         previousPathNode.totalPressureRelieved + previousPathNode.totalFlowRate,
                         Set.of(traveller.currentValve))
@@ -125,6 +131,7 @@ public class Day16 implements DaySolution<Integer> {
                 throw new RuntimeException();
 //            System.out.printf("\tMove to %s, following path%s%n", nextValveId, pathToNextValveToOpen);
             path.add(new ValvePathNode(
+                    traveller.currentValve.id,
                     previousPathNode.totalFlowRate,
                     previousPathNode.totalPressureRelieved + previousPathNode.totalFlowRate));
             return new Traveller(system.getValve(nextValveId), copyWithoutElement(traveller.pathToTargetValve, nextValveId));
@@ -144,13 +151,15 @@ public class Day16 implements DaySolution<Integer> {
             return copy;
         }
 
-        private record ValvePathNode(int totalFlowRate,
+        private record ValvePathNode(String valveId,
+                                     int totalFlowRate,
 
                                      int totalPressureRelieved,
                                      Set<Valve> valvesOpened) {
-            ValvePathNode(int totalFlowRate,
+            ValvePathNode(String valveId,
+                          int totalFlowRate,
                           int totalPressureRelieved) {
-                this(totalFlowRate, totalPressureRelieved, Set.of());
+                this(valveId, totalFlowRate, totalPressureRelieved, Set.of());
             }
         }
 
