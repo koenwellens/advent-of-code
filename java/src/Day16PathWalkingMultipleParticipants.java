@@ -24,9 +24,11 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
-public class Day16MultipleParticipants implements DaySolution<Integer> {
-
-    // Contains a bug - after rolling back path nodes the valves available for selection somehow gets messed up
+/**
+ * Extension of {@link Day16PathWalking } for multiple participants
+ * Fails because when partially "rewinding" the path to a previous state the valves that are available for selection somehow are messed up
+ */
+public class Day16PathWalkingMultipleParticipants implements DaySolution<Integer> {
 
     @Override
     public Integer part1(Path inputFilePath) {

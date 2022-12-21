@@ -17,7 +17,14 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
-public class Day16 implements DaySolution<Integer> {
+/**
+ * Sends a Path Walker from node to node, creating the path one minute at a time, building upon the previous path end
+ * until the full time is expired, then registering the released amount
+ *
+ * !! Only implements part 1
+ *
+ */
+public class Day16PathWalking implements DaySolution<Integer> {
 
     @Override
     public Integer part1(Path inputFilePath) {

@@ -57,7 +57,10 @@ public class TestGenerator<S extends DaySolution<R>, R> {
                         null,
                         () -> {
                             System.out.println(testConfig.testLabel());
+                            long startTime = System.currentTimeMillis();
                             assertEquals(testConfig.expectation, testConfig.execution.apply(testConfig.inputFilePath));
+                            long endTime = System.currentTimeMillis();
+                            System.out.println("Completed in " + (endTime - startTime) + "ms");
                             System.out.println();
                         }));
     }
