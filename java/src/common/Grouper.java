@@ -1,3 +1,5 @@
+package common;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -28,7 +30,7 @@ public class Grouper<T> {
         return currentGroup;
     }
 
-    static class Group<T> {
+    public static class Group<T> {
 
         private final List<T> items = new ArrayList<>();
         private final Predicate<Group<T>> groupCompletePredicate;

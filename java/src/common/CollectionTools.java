@@ -2,8 +2,10 @@ package common;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class CollectionTools {
@@ -21,4 +23,11 @@ public class CollectionTools {
         elements.forEach(copy::remove);
         return List.copyOf(copy);
     }
+
+    public static <K, V> Map<K, V> copyWith(Map<K, V> combo, K key, V value) {
+        HashMap<K, V> next = new HashMap<>(combo);
+        next.put(key, value);
+        return Map.copyOf(next);
+    }
+
 }
