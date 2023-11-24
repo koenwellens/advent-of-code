@@ -1,28 +1,12 @@
 {
   "scripts": {
     "day1": "tsc challenge1/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge1/main.js",
-    "day2": "tsc challenge2/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge2/main.js",
-    "day3": "tsc challenge3/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge3/main.js",
-    "day4": "tsc challenge4/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge4/main.js",
-    "day5": "tsc challenge5/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge5/main.js",
-    "day6": "tsc challenge6/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge6/main.js",
-    "day7": "tsc challenge7/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge7/main.js",
-    "day8": "tsc challenge8/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge8/main.js",
-    "day9": "tsc challenge9/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge9/main.js",
-    "day10": "tsc challenge10/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge10/main.js",
-    "day11": "tsc challenge11/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge11/main.js",
-    "day12": "tsc challenge12/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge12/main.js",
-    "day13": "tsc challenge13/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge13/main.js",
-    "day14": "tsc challenge14/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge14/main.js",
-    "day15": "tsc challenge15/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge15/main.js",
-    "day16": "tsc challenge16/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge16/main.js",
-    "day17": "tsc challenge17/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge17/main.js",
 
     "compare-inputs:compile": "tsc compare-inputs.ts --types node",
     "compare-inputs:run": "node compare-inputs.js"
   },
   "dependencies": {
     "@types/node": "^18.11.15",
-    "typescript": "^4.9.3"
+    "typescript": "^5.3.2"
   }
 }
