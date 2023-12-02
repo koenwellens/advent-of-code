@@ -16,4 +16,5 @@ public @interface AdventOfCodeTest {
     String input2() default "";
     Class<?> valueType() default Integer.class;
     String text() default "The computed value is ";
+    String alternateText() default "The computed value is ";
 }

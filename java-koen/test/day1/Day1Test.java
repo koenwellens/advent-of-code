@@ -12,7 +12,8 @@ import java.util.function.Function;
         example2 = "281",
         input1 = "55816",
         input2 = "54980",
-        text = "The sum of calibration values is ")
+        text = "The sum of calibration values is ",
+        alternateText = "The sum of calibration values is ")
 public class Day1Test extends AbstractTest<CalibrationDocument, Integer> {
 
     @Override
