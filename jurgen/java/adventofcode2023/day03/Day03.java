@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import static adventofcode2023.common.CollectionUtils.streamOfAll;
 import static adventofcode2023.common.CollectionUtils.unionOf;
+import static adventofcode2023.common.LongOperations.MULTIPLY;
 import static adventofcode2023.day03.Day03Input.EXAMPLE;
 import static adventofcode2023.day03.Day03Input.INPUT;
 import static java.util.stream.Collectors.toSet;
@@ -90,7 +91,7 @@ class Day03 {
                 long sumOfGearRatiosForWindowLine1 = gearWindowLine1GearSymbols.stream()
                         .map(gearSymbol -> allWindowEngineSchematicNumbers.stream().filter(gearSymbol::isAdjacentTo).collect(toSet()))
                         .filter(engineSchematicNumbers -> engineSchematicNumbers.size() == 2)
-                        .mapToLong(values -> values.stream().mapToLong(EngineSchematicNumber::value).reduce((a, b) -> a * b).orElseThrow())
+                        .mapToLong(values -> values.stream().map(EngineSchematicNumber::value).reduce(MULTIPLY).orElseThrow())
                         .sum();
                 sumOfGearRatios += sumOfGearRatiosForWindowLine1;
             }

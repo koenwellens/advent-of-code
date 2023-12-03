@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static adventofcode2023.common.IntOperations.MULTIPLY;
 import static adventofcode2023.day02.Day02Input.INPUT;
 import static adventofcode2023.day02.Day02Input.PART_1_EXAMPLE;
 import static java.lang.Integer.parseInt;
@@ -50,7 +51,7 @@ public class Day02 {
                                                 Optional::orElseThrow)))
                         .values()
                         .stream()
-                        .reduce((a, b) -> a * b) // multiply max values for each color
+                        .reduce(MULTIPLY) // multiply max values for each color
                         .orElseThrow())
                 .sum();
     }
