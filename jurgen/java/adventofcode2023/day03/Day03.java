@@ -1,5 +1,6 @@
 package adventofcode2023.day03;
 
+import adventofcode2023.common.Input;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -11,8 +12,8 @@ import java.util.stream.Stream;
 
 import static adventofcode2023.common.CollectionUtils.streamOfAll;
 import static adventofcode2023.common.CollectionUtils.unionOf;
-import static adventofcode2023.day03.InputData.EXAMPLE;
-import static adventofcode2023.day03.InputData.INPUT;
+import static adventofcode2023.day03.Day03Input.EXAMPLE;
+import static adventofcode2023.day03.Day03Input.INPUT;
 import static java.util.stream.Collectors.toSet;
 
 class Day03 {
@@ -28,12 +29,12 @@ class Day03 {
         System.out.println("Puzzle 2 input: " + sumOfGearRatios(INPUT)); // expected: 81296995
     }
 
-    private static long sumOfPartNumbers(String engineSchematicData) {
+    private static long sumOfPartNumbers(Input engineSchematicData) {
         Set<Integer> indexesAffectedByPreviousLineSymbols = new HashSet<>();
         Set<EngineSchematicNumber> previousLineNumbers = new HashSet<>();
         Set<EngineSchematicNumber> allNumberParts = new HashSet<>();
 
-        String[] engineSchematicDataLines = engineSchematicData.split("\n");
+        String[] engineSchematicDataLines = engineSchematicData.lines();
         for (int line = 0; line < engineSchematicDataLines.length; line++) {
             // parse current line symbols and map to range of affected indexes
             // a symbol detected at index i affects indexes i-1 to i+1
@@ -63,13 +64,13 @@ class Day03 {
                 .sum();
     }
 
-    private static long sumOfGearRatios(String engineSchematicData) {
+    private static long sumOfGearRatios(Input engineSchematicData) {
         Set<GearSymbol> gearWindowLine1GearSymbols = null;
         Set<EngineSchematicNumber> gearWindowLine0Numbers = null;
         Set<EngineSchematicNumber> gearWindowLine1Numbers = null;
         long sumOfGearRatios = 0;
 
-        String[] engineSchematicDataLines = engineSchematicData.split("\n");
+        String[] engineSchematicDataLines = engineSchematicData.lines();
         for (int line = 0; line < engineSchematicDataLines.length; line++) {
             // parse current line gear symbols and determine range of affected indexes
             // a symbol detected at index i affects indexes i-1 to i+1
