@@ -42,7 +42,7 @@ public abstract class AbstractTest<T extends AbstractObjectBasedOnInput<EXPECTED
         final var expected = expectedValue(myAnnotation, name);
 
         assertEquals(expected, result);
-        System.out.println(text.apply(myAnnotation) + result);
+        System.out.println("We just ran " + name + ". " + text.apply(myAnnotation) + result);
     }
 
     private EXPECTED expectedValue(AdventOfCodeTest annotation, String name) {

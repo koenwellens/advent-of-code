@@ -3,6 +3,7 @@
     "day1": "tsc challenge1/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge1/main.js",
     "day2": "tsc challenge2/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge2/main.js",
     "day3": "tsc challenge3/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge3/main.js",
+    "day4": "tsc challenge4/main.ts --target esnext --module commonjs --esModuleInterop true; node challenge4/main.js",
 
     "compare-inputs:compile": "tsc compare-inputs.ts --types node",
     "compare-inputs:run": "node compare-inputs.js"
