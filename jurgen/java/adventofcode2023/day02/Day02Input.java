@@ -1,16 +1,18 @@
 package adventofcode2023.day02;
 
-class InputData {
+import adventofcode2023.common.Input;
 
-    static final String PART_1_EXAMPLE = """
+class Day02Input {
+
+    static final Input PART_1_EXAMPLE = Input.of("""
             Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
             Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
             Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
             Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
             Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-            """;
+            """);
 
-    static final String INPUT = """
+    static final Input INPUT = Input.of("""
             Game 1: 8 green; 5 green, 6 blue, 1 red; 2 green, 1 blue, 4 red; 10 green, 1 red, 2 blue; 2 blue, 3 red
             Game 2: 10 blue, 12 red; 8 red; 7 green, 5 red, 7 blue
             Game 3: 1 red, 15 blue, 3 green; 8 blue, 2 red, 4 green; 2 red, 5 green, 9 blue
@@ -111,6 +113,6 @@ class InputData {
             Game 98: 13 red, 15 green, 14 blue; 6 blue, 1 green; 14 blue, 12 red, 1 green
             Game 99: 1 green, 11 red, 12 blue; 7 red, 20 blue, 1 green; 5 blue, 5 red; 6 blue, 4 red; 1 blue, 1 green; 6 red, 8 blue
             Game 100: 2 red, 9 green, 11 blue; 13 blue, 4 red, 16 green; 8 green, 13 blue; 10 green, 1 red, 12 blue
-            """;
+            """);
 
 }

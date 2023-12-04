@@ -1,9 +1,11 @@
 package adventofcode2023.day01;
 
+import adventofcode2023.common.Input;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static adventofcode2023.day01.InputData.*;
+import static adventofcode2023.day01.Day01Input.*;
 
 class Day01 {
 
@@ -36,12 +38,10 @@ class Day01 {
             new Number("8", 8),
             new Number("9", 9)};
 
-    private static int sumOfCalibrationValues(Function<String, Integer> lineCalibrationValueParser, String calibrationDocument) {
-        int sum = 0;
-        for (String s : calibrationDocument.split("\n")) {
-            sum += lineCalibrationValueParser.apply(s);
-        }
-        return sum;
+    private static int sumOfCalibrationValues(Function<String, Integer> lineCalibrationValueParser, Input calibrationDocument) {
+        return calibrationDocument
+                .streamLinesToInt(lineCalibrationValueParser)
+                .sum();
     }
 
     private static int calibrationValue(String calibrationLine) {

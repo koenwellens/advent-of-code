@@ -1,14 +1,16 @@
 package adventofcode2023.day01;
 
-class InputData {
+import adventofcode2023.common.Input;
 
-    public static final String PART_1_EXAMPLE = """
+class Day01Input {
+
+    public static final Input PART_1_EXAMPLE = Input.of("""
             1abc2
             pqr3stu8vwx
             a1b2c3d4e5f
             treb7uchet
-            """;
-    public static final String PART_2_EXAMPLE = """
+            """);
+    public static final Input PART_2_EXAMPLE = Input.of("""
             two1nine
             eightwothree
             abcone2threexyz
@@ -16,8 +18,8 @@ class InputData {
             4nineeightseven2
             zoneight234
             7pqrstsixteen
-            """;
-    public static final String INPUT = """
+            """);
+    public static final Input INPUT = Input.of("""
             fivethreeonezblqnsfk1
             two74119onebtqgnine
             jrjh5vsrxbhsfour3
@@ -1018,5 +1020,5 @@ class InputData {
             97ninesevenrhchvppnztvfbfpkzrbcone
             sevendxbninefour2fourclmln
             1rdtwofjvdllht5eightsixfourbl
-            """;
+            """);
 }

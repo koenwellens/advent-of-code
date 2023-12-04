@@ -1,12 +1,15 @@
 package adventofcode2023.day02;
 
+import adventofcode2023.common.Input;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static adventofcode2023.day02.InputData.INPUT;
-import static adventofcode2023.day02.InputData.PART_1_EXAMPLE;
+import static adventofcode2023.common.IntOperations.MULTIPLY;
+import static adventofcode2023.day02.Day02Input.INPUT;
+import static adventofcode2023.day02.Day02Input.PART_1_EXAMPLE;
 import static java.lang.Integer.parseInt;
 import static java.util.stream.Collectors.*;
 
@@ -19,49 +22,42 @@ public class Day02 {
         System.out.println("Puzzle 2 input: " + sumOfPowersOfMinimalCubeSetsRequiredForGame(INPUT)); // expected: 71274
     }
 
-    private static int sumOfIndexesOfPossibleGames(String allGamesDataString) {
+    private static int sumOfIndexesOfPossibleGames(Input allGamesData) {
         // number of cubes of each color in the game
         Map<String, Integer> gameCubeCount = Map.of(
                 "red", 12,
                 "green", 13,
                 "blue", 14);
 
-        int sumOfIds = 0;
-        for (String singleGameDataString : allGamesDataString.split("\n")) {
-            String gameIdString = singleGameDataString.substring(5, singleGameDataString.indexOf(":"));
-            boolean gameDataPossible = streamIndividualCubeCounts(singleGameDataString)
-                    .noneMatch(cubeCount -> parseInt(cubeCount[0]) > gameCubeCount.get(cubeCount[1])); // as soon as a reported color count surpasses the number of cubes of that color in the game, the entire game becomes impossible
-            if (gameDataPossible) {
-                sumOfIds += parseInt(gameIdString);
-            }
-        }
-
-        return sumOfIds;
+        return allGamesData
+                .streamLines(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
+                .filter(splitLine -> streamIndividualCubeCounts(splitLine[1])
+                        .noneMatch(cubeCount -> parseInt(cubeCount[0]) > gameCubeCount.get(cubeCount[1])))
+                .map(splitLine -> splitLine[0])
+                .map(gameIdString -> gameIdString.substring(5)) // remove leading "Game " string
+                .mapToInt(Integer::parseInt)
+                .sum();
     }
 
-    private static int sumOfPowersOfMinimalCubeSetsRequiredForGame(String allGamesDataString) {
-        int sumOfPowersOfMinimalCubeSetsRequiredForGame = 0;
-        for (String singleGameDataString : allGamesDataString.split("\n")) {
-            sumOfPowersOfMinimalCubeSetsRequiredForGame +=
-                    streamIndividualCubeCounts(singleGameDataString)
-                            .collect(
-                                    groupingBy(
-                                            cubeCount -> cubeCount[1], // group by color
-                                            collectingAndThen(
-                                                    mapping(cubeCountUnparsed -> parseInt(cubeCountUnparsed[0]), maxBy(Integer::compareTo)), // keep only the max value for this color
-                                                    Optional::orElseThrow)))
-                            .values()
-                            .stream()
-                            .mapToInt(i -> i)
-                            .reduce((a, b) -> a * b) // multiply max values for each color
-                            .orElseThrow();
-        }
-
-        return sumOfPowersOfMinimalCubeSetsRequiredForGame;
+    private static int sumOfPowersOfMinimalCubeSetsRequiredForGame(Input allGamesData) {
+        return allGamesData
+                .streamLines(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
+                .mapToInt(splitLine -> streamIndividualCubeCounts(splitLine[1])
+                        .collect(
+                                groupingBy(
+                                        cubeCount -> cubeCount[1], // group by color
+                                        collectingAndThen(
+                                                mapping(cubeCountUnparsed -> parseInt(cubeCountUnparsed[0]), maxBy(Integer::compareTo)), // keep only the max value for this color
+                                                Optional::orElseThrow)))
+                        .values()
+                        .stream()
+                        .reduce(MULTIPLY) // multiply max values for each color
+                        .orElseThrow())
+                .sum();
     }
 
-    private static Stream<String[]> streamIndividualCubeCounts(String singleGameDataString) {
-        return Arrays.stream(singleGameDataString.substring(singleGameDataString.indexOf(":") + 1).split(";"))
+    private static Stream<String[]> streamIndividualCubeCounts(String singleGameCubeSetsString) {
+        return Arrays.stream(singleGameCubeSetsString.split(";"))
                 .flatMap(cubeSetString -> Arrays.stream(cubeSetString.split(",")))
                 .map(String::trim)
                 .map(cubeCountString -> cubeCountString.split(" "));
