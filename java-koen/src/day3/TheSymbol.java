@@ -14,8 +14,11 @@ public final class TheSymbol implements Symbol {
 
     @Override
     public boolean isAdjacentTo(final int row, final int column) {
-        final var rowDiff = Math.abs(this.row - row);
-        final var columnDiff = Math.abs(this.column - column);
-        return rowDiff <= 1 && columnDiff <= 1;
+        return this.row == row && this.column == column;
+    }
+
+    @Override
+    public boolean isPotentialGear() {
+        return "*".equals(this.value);
     }
 }

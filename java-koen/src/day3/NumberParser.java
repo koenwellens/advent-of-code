@@ -2,7 +2,8 @@ package day3;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.regex.Pattern;
+
+import static java.lang.Character.isDigit;
 
 public final class NumberParser implements Parser<Collection<PotentialPartNumber>> {
     private final String line;
@@ -15,13 +16,20 @@ public final class NumberParser implements Parser<Collection<PotentialPartNumber
 
     @Override
     public Collection<PotentialPartNumber> value() {
-        final var pattern = Pattern.compile("(\\d+)");
-        final var matcher = pattern.matcher(this.line);
-
         final var result = new ArrayList<PotentialPartNumber>();
-        while (matcher.find()) {
-            final var foundValue = matcher.group(0);
-            result.add(new PotentialPartNumber(foundValue, this.row, line.indexOf(foundValue)));
+        for (int column = 0; column < this.line.length(); column++) {
+            if (isDigit(this.line.charAt(column))) {
+                for (int end = column + 1; end < this.line.length(); end++) {
+                    if (end == this.line.length() - 1 && isDigit(this.line.charAt(end))) {
+                        result.add(new PotentialPartNumber(this.line.substring(column), this.row, column));
+                    }
+                    if (!isDigit(this.line.charAt(end))) {
+                        result.add(new PotentialPartNumber(this.line.substring(column, end), this.row, column));
+                        column += (end - column - 1);
+                        break;
+                    }
+                }
+            }
         }
 
         return result;

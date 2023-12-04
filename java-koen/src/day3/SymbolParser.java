@@ -1,8 +1,9 @@
 package day3;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 public final class SymbolParser implements Parser<Collection<Symbol>> {
 
@@ -22,6 +23,6 @@ public final class SymbolParser implements Parser<Collection<Symbol>> {
                 .filter(i -> !".".equals(characters[i]))
                 .filter(i -> !new IsNumber().test(characters[i]))
                 .mapToObj(i -> new TheSymbol(characters[i], row, i))
-                .collect(Collectors.toUnmodifiableList());
+                .collect(toUnmodifiableList());
     }
 }

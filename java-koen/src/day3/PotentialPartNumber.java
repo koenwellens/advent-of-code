@@ -1,12 +1,11 @@
 package day3;
 
 import java.util.Collection;
-import java.util.stream.IntStream;
 
 import static java.lang.Integer.parseInt;
 import static java.util.stream.IntStream.range;
 
-public final class PotentialPartNumber implements PartNumber, Symbol {
+public final class PotentialPartNumber implements PartNumber {
 
     private final String number;
     private final int row;
@@ -30,13 +29,11 @@ public final class PotentialPartNumber implements PartNumber, Symbol {
 
     @Override
     public boolean isAdjacentTo(final Symbol symbol) {
-        return !equals(symbol) && range(this.startColumn, this.startColumn + this.number.length() + 1)
-                .anyMatch(column -> symbol.isAdjacentTo(this.row, column));
-    }
-
-    @Override
-    public boolean isAdjacentTo(final int row, final int column) {
-        final var rowDiff = Math.abs(this.row - row);
-        return rowDiff <= 1 && range(this.startColumn, this.number.length() + 1).anyMatch(myColumn -> Math.abs(myColumn - column) <= 1);
+        return range(this.startColumn - 1, this.startColumn + this.number.length() + 1)
+                .anyMatch(column -> symbol.isAdjacentTo(this.row - 1, column))
+                || symbol.isAdjacentTo(this.row, this.startColumn - 1)
+                || symbol.isAdjacentTo(this.row, this.startColumn + this.number.length())
+                || range(this.startColumn - 1, this.startColumn + this.number.length() + 1)
+                .anyMatch(column -> symbol.isAdjacentTo(this.row + 1, column));
     }
 }

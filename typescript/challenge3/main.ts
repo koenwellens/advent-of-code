@@ -3,19 +3,6 @@ import {readFile} from '../common/readFile';
 const example1 = readFile(3, 'example1');
 const input1 = readFile(3, 'input1');
 
-/**
- * 467..114..
- * ...*......
- * ..35..633.
- * ......#...
- * 617*......
- * .....+.58.
- * ..592.....
- * ......755.
- * ...$.*....
- * .664.598..
- */
-
 const range = (start, end) => Array.from({length: (end - start)}, (v, k) => k + start);
 
 const allNumbers = (text: string[]) => {
