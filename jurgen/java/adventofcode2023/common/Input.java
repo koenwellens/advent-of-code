@@ -3,6 +3,7 @@ package adventofcode2023.common;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public class Input {
@@ -33,4 +34,7 @@ public class Input {
         return streamLines(lineParser).mapToInt(i -> i);
     }
 
+    public LongStream streamLinesToLong(Function<String, Long> lineParser) {
+        return streamLines(lineParser).mapToLong(i -> i);
+    }
 }

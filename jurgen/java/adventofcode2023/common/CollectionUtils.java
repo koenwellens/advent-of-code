@@ -21,4 +21,13 @@ public final class CollectionUtils {
         }
         return union;
     }
+
+    @SafeVarargs
+    public static <T> Set<T> intersectionOf(Set<T>... sets) {
+        HashSet<T> result = new HashSet<>(sets[0]);
+        for (int i = 1; i < sets.length; i++) {
+            result.retainAll(sets[i]);
+        }
+        return result;
+    }
 }
