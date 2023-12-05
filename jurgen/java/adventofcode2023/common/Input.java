@@ -8,13 +8,15 @@ import java.util.stream.Stream;
 
 public class Input {
 
-    public static Input of(String dataString) {
-        return new Input(dataString);
+    public static Input of(String name, String dataString) {
+        return new Input(name, dataString);
     }
 
+    private final String name;
     private final String rawData;
 
-    private Input(String rawData) {
+    private Input(String name, String rawData) {
+        this.name = name;
         this.rawData = rawData;
     }
 
@@ -36,5 +38,9 @@ public class Input {
 
     public LongStream streamLinesToLong(Function<String, Long> lineParser) {
         return streamLines(lineParser).mapToLong(i -> i);
+    }
+
+    public String getName() {
+        return name;
     }
 }

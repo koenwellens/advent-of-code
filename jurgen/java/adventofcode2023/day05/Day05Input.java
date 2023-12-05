@@ -3,7 +3,8 @@ package adventofcode2023.day05;
 import adventofcode2023.common.Input;
 
 class Day05Input {
-    public static final Input EXAMPLE = Input.of(
+    static final Input EXAMPLE = Input.of(
+            "example",
             """
                     seeds: 79 14 55 13
                                         
@@ -40,7 +41,8 @@ class Day05Input {
                     56 93 4
                     """
     );
-    public static final Input INPUT = Input.of(
+    static final Input INPUT = Input.of(
+            "input",
             """
                     seeds: 487758422 524336848 2531594804 27107767 1343486056 124327551 1117929819 93097070 3305050822 442320425 2324984130 87604424 4216329536 45038934 1482842780 224610898 115202033 371332058 2845474954 192579859
                                         

@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import static adventofcode2023.common.CollectionUtils.streamOfAll;
 import static adventofcode2023.common.CollectionUtils.unionOf;
 import static adventofcode2023.common.LongOperations.MULTIPLY;
+import static adventofcode2023.common.runner.Runner.runnerFor;
 import static adventofcode2023.day03.Day03Input.EXAMPLE;
 import static adventofcode2023.day03.Day03Input.INPUT;
 import static java.util.stream.Collectors.toSet;
@@ -24,10 +25,13 @@ class Day03 {
     private static final Pattern GEAR_SYMBOL_PATTERN = Pattern.compile("\\*");
 
     public static void main(String[] args) {
-        System.out.println("Puzzle 1 example: " + sumOfPartNumbers(EXAMPLE)); // expected: 4361
-        System.out.println("Puzzle 1 input: " + sumOfPartNumbers(INPUT)); // expected: 517021
-        System.out.println("Puzzle 2 example: " + sumOfGearRatios(EXAMPLE)); // expected: 467835
-        System.out.println("Puzzle 2 input: " + sumOfGearRatios(INPUT)); // expected: 81296995
+        runnerFor(Day03.class)
+                .execute("Puzzle 1", Day03::sumOfPartNumbers).withInput(Day03Input.EXAMPLE).expect(4361L)
+                .execute("Puzzle 1", Day03::sumOfPartNumbers).withInput(Day03Input.INPUT).expect(517021L)
+                .execute("Puzzle 2", Day03::sumOfGearRatios).withInput(EXAMPLE).expect(467835L)
+                .execute("Puzzle 2", Day03::sumOfGearRatios).withInput(Day03Input.INPUT).expect(81296995L)
+                .build()
+                .run();
     }
 
     private static long sumOfPartNumbers(Input engineSchematicData) {

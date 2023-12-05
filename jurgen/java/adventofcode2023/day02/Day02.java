@@ -8,18 +8,21 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static adventofcode2023.common.IntOperations.MULTIPLY;
-import static adventofcode2023.day02.Day02Input.INPUT;
+import static adventofcode2023.common.runner.Runner.runnerFor;
 import static adventofcode2023.day02.Day02Input.PART_1_EXAMPLE;
 import static java.lang.Integer.parseInt;
 import static java.util.stream.Collectors.*;
 
-public class Day02 {
+class Day02 {
 
     public static void main(String[] args) {
-        System.out.println("Puzzle 1 example: " + sumOfIndexesOfPossibleGames(PART_1_EXAMPLE)); // expected: 8
-        System.out.println("Puzzle 1 input: " + sumOfIndexesOfPossibleGames(INPUT)); // expected: 2149
-        System.out.println("Puzzle 2 example: " + sumOfPowersOfMinimalCubeSetsRequiredForGame(PART_1_EXAMPLE)); // expected: 2286
-        System.out.println("Puzzle 2 input: " + sumOfPowersOfMinimalCubeSetsRequiredForGame(INPUT)); // expected: 71274
+        runnerFor(Day02.class)
+                .execute("Puzzle 1", Day02::sumOfIndexesOfPossibleGames).withInput(Day02Input.PART_1_EXAMPLE).expect(8)
+                .execute("Puzzle 1", Day02::sumOfIndexesOfPossibleGames).withInput(Day02Input.INPUT).expect(2149)
+                .execute("Puzzle 2", Day02::sumOfPowersOfMinimalCubeSetsRequiredForGame).withInput(PART_1_EXAMPLE).expect(2286)
+                .execute("Puzzle 2", Day02::sumOfPowersOfMinimalCubeSetsRequiredForGame).withInput(Day02Input.INPUT).expect(71274)
+                .build()
+                .run();
     }
 
     private static int sumOfIndexesOfPossibleGames(Input allGamesData) {

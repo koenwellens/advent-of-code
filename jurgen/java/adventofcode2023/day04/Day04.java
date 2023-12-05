@@ -9,14 +9,20 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static adventofcode2023.common.CollectionUtils.intersectionOf;
+import static adventofcode2023.common.runner.Runner.runnerFor;
+import static adventofcode2023.day04.Day04Input.EXAMPLE;
+import static adventofcode2023.day04.Day04Input.INPUT;
 import static java.util.stream.Collectors.toList;
 
 class Day04 {
     public static void main(String[] args) {
-        System.out.println("Puzzle 1 example: " + sumOfScratchCardScores(Day04Input.EXAMPLE)); // expected: 13
-        System.out.println("Puzzle 1 input: " + sumOfScratchCardScores(Day04Input.INPUT)); // expected: 28538
-        System.out.println("Puzzle 2 example: " + totalScratchCardsWon(Day04Input.EXAMPLE)); // expected: 30
-        System.out.println("Puzzle 2 input: " + totalScratchCardsWon(Day04Input.INPUT)); // expected: 9425061
+        runnerFor(Day04.class)
+                .execute("Puzzle 1", Day04::sumOfScratchCardScores).withInput(EXAMPLE).expect(13L)
+                .execute("Puzzle 1", Day04::sumOfScratchCardScores).withInput(INPUT).expect(28538L)
+                .execute("Puzzle 2", Day04::totalScratchCardsWon).withInput(EXAMPLE).expect(30L)
+                .execute("Puzzle 2", Day04::totalScratchCardsWon).withInput(INPUT).expect(9425061L)
+                .build()
+                .run();
     }
 
     private static long sumOfScratchCardScores(Input allScratchCardsInput) {

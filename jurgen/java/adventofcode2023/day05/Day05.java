@@ -4,12 +4,19 @@ import adventofcode2023.common.Input;
 
 import java.util.*;
 
+import static adventofcode2023.common.runner.Runner.runnerFor;
+import static adventofcode2023.day05.Day05Input.EXAMPLE;
+import static adventofcode2023.day05.Day05Input.INPUT;
+
 class Day05 {
     public static void main(String[] args) {
-        System.out.println("Puzzle 1 example: " + lowestLocationNumberForSeedValues(Day05Input.EXAMPLE)); // expected: 35
-        System.out.println("Puzzle 1 input: " + lowestLocationNumberForSeedValues(Day05Input.INPUT)); // expected: 331445006
-        System.out.println("Puzzle 2 example: " + lowestLocationNumberForSeedRanges(Day05Input.EXAMPLE)); // expected: 46
-        System.out.println("Puzzle 2 input: " + lowestLocationNumberForSeedRanges(Day05Input.INPUT)); // expected: 6472060
+        runnerFor(Day05.class)
+                .execute("Puzzle 1", Day05::lowestLocationNumberForSeedValues).withInput(EXAMPLE).expect(35L)
+                .execute("Puzzle 1", Day05::lowestLocationNumberForSeedValues).withInput(INPUT).expect(331445006L)
+                .execute("Puzzle 2", Day05::lowestLocationNumberForSeedRanges).withInput(EXAMPLE).expect(46L)
+                .execute("Puzzle 2", Day05::lowestLocationNumberForSeedRanges).withInput(INPUT).expect(6472060L)
+                .build()
+                .run();
     }
 
     private static long lowestLocationNumberForSeedValues(Input almanacInput) {
@@ -29,7 +36,7 @@ class Day05 {
 
         // skipping seeds line (0) and separator line
         int lineIndex = 2;
-        while (!"location".equals(valueType)) {
+        while (!"location" .equals(valueType)) {
             // get source and destination of mapping from header mappingLine
             String[] mappingData = almanacLines[lineIndex++].split(" ")[0].split("-");
             assert valueType.equals(mappingData[0]); // source should match previous destination/valueType
@@ -85,7 +92,7 @@ class Day05 {
 
         // skipping seeds line (0) and separator line
         int lineIndex = 2;
-        while (!"location".equals(valueType)) {
+        while (!"location" .equals(valueType)) {
             // get source and destination of mapping from header mappingLine
 
             // WTF dis pattern dont work GRMBL!!!
@@ -141,7 +148,7 @@ class Day05 {
     }
 
     private static long[] parseSeedsLineNumbers(String seedsLine) {
-        return Arrays.stream(seedsLine.substring("seeds: ".length()).split(" "))
+        return Arrays.stream(seedsLine.substring("seeds: " .length()).split(" "))
                 .mapToLong(Long::parseLong)
                 .toArray();
     }
