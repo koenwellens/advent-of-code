@@ -5,15 +5,19 @@ import adventofcode2023.common.Input;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static adventofcode2023.common.runner.Runner.runnerFor;
 import static adventofcode2023.day01.Day01Input.*;
 
 class Day01 {
 
     public static void main(String[] args) {
-        System.out.println("Puzzle 1 example: " + sumOfCalibrationValues(Day01::calibrationValue, PART_1_EXAMPLE)); // expected: 142
-        System.out.println("Puzzle 1 input: " + sumOfCalibrationValues(Day01::calibrationValue, INPUT)); // expected: 56108
-        System.out.println("Puzzle 2 example: " + sumOfCalibrationValues(Day01::improvedCalibrationValue, PART_2_EXAMPLE)); // expected: 281
-        System.out.println("Puzzle 2 input: " + sumOfCalibrationValues(Day01::improvedCalibrationValue, INPUT)); // expected: 55652
+        runnerFor(Day01.class)
+                .execute("Puzzle 1", Day01::simpleSumOfCalibrationValues).withInput(PART_1_EXAMPLE).expect(142)
+                .execute("Puzzle 1", Day01::simpleSumOfCalibrationValues).withInput(INPUT).expect(56108)
+                .execute("Puzzle 2", Day01::improvedSumOfCalibrationValues).withInput(PART_2_EXAMPLE).expect(281)
+                .execute("Puzzle 2", Day01::improvedSumOfCalibrationValues).withInput(INPUT).expect(55652)
+                .build()
+                .run();
     }
 
     private static final boolean DEBUG = false;
@@ -37,6 +41,14 @@ class Day01 {
             new Number("7", 7),
             new Number("8", 8),
             new Number("9", 9)};
+
+    private static int simpleSumOfCalibrationValues(Input calibrationDocument) {
+        return sumOfCalibrationValues(Day01::calibrationValue, calibrationDocument);
+    }
+
+    private static int improvedSumOfCalibrationValues(Input calibrationDocument) {
+        return sumOfCalibrationValues(Day01::improvedCalibrationValue, calibrationDocument);
+    }
 
     private static int sumOfCalibrationValues(Function<String, Integer> lineCalibrationValueParser, Input calibrationDocument) {
         return calibrationDocument
