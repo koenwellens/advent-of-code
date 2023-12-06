@@ -56,6 +56,9 @@ public abstract class AbstractTest<T extends AbstractObjectBasedOnInput<EXPECTED
         if (annotation.valueType().equals(Integer.class)) {
             return (EXPECTED) Integer.valueOf(expectedValue);
         }
+        if (annotation.valueType().equals(Long.class)) {
+            return (EXPECTED) Long.valueOf(expectedValue);
+        }
         return (EXPECTED) expectedValue;
     }
 }
