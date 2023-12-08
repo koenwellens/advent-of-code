@@ -1,5 +1,7 @@
 package day4;
 
+import common.Parser;
+
 import java.util.Collection;
 import java.util.function.Function;
 

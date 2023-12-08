@@ -1,5 +1,7 @@
 package day4;
 
+import common.Parser;
+
 import static java.lang.Integer.parseInt;
 
 public final class CardIdParser implements Parser<Integer> {

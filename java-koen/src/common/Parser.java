@@ -1,4 +1,4 @@
-package day4;
+package common;
 
 public interface Parser<T> {
 

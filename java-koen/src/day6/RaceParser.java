@@ -1,5 +1,7 @@
 package day6;
 
+import common.Parser;
+
 import java.util.Collection;
 import java.util.List;
 

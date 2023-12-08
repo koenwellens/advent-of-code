@@ -1,5 +1,7 @@
 package day3;
 
+import common.Parser;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
