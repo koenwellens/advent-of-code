@@ -32,6 +32,10 @@ public class Input {
         return streamLines().map(lineParser);
     }
 
+    public <T> Stream<T> streamLinesFlatMapped(Function<String, Stream<T>> lineParser) {
+        return streamLines().flatMap(lineParser);
+    }
+
     public IntStream streamLinesMappedToInt(Function<String, Integer> lineParser) {
         return streamLinesMapped(lineParser).mapToInt(i -> i);
     }
