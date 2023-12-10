@@ -22,14 +22,14 @@ class Day09 {
 
     private static Long sumOfExtrapolatedNextValues(Input oasisFileInput) {
         return oasisFileInput
-                .streamLines(Day09::parseSequence)
+                .streamLinesMapped(Day09::parseSequence)
                 .mapToLong(Day09::determineNextValue)
                 .sum();
     }
 
     private static Long sumOfExtrapolatedPreviousValues(Input oasisFileInput) {
         return oasisFileInput
-                .streamLines(Day09::parseSequence)
+                .streamLinesMapped(Day09::parseSequence)
                 .mapToLong(Day09::determinePreviousValue)
                 .sum();
     }

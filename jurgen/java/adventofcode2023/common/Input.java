@@ -28,16 +28,16 @@ public class Input {
         return Arrays.stream(lines());
     }
 
-    public <T> Stream<T> streamLines(Function<String, T> lineParser) {
+    public <T> Stream<T> streamLinesMapped(Function<String, T> lineParser) {
         return streamLines().map(lineParser);
     }
 
-    public IntStream streamLinesToInt(Function<String, Integer> lineParser) {
-        return streamLines(lineParser).mapToInt(i -> i);
+    public IntStream streamLinesMappedToInt(Function<String, Integer> lineParser) {
+        return streamLinesMapped(lineParser).mapToInt(i -> i);
     }
 
-    public LongStream streamLinesToLong(Function<String, Long> lineParser) {
-        return streamLines(lineParser).mapToLong(i -> i);
+    public LongStream streamLinesMappedToLong(Function<String, Long> lineParser) {
+        return streamLinesMapped(lineParser).mapToLong(i -> i);
     }
 
     public String getName() {

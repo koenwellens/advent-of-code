@@ -33,7 +33,7 @@ class Day02 {
                 "blue", 14);
 
         return allGamesData
-                .streamLines(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
+                .streamLinesMapped(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
                 .filter(splitLine -> streamIndividualCubeCounts(splitLine[1])
                         .noneMatch(cubeCount -> parseInt(cubeCount[0]) > gameCubeCount.get(cubeCount[1])))
                 .map(splitLine -> splitLine[0])
@@ -44,7 +44,7 @@ class Day02 {
 
     private static int sumOfPowersOfMinimalCubeSetsRequiredForGame(Input allGamesData) {
         return allGamesData
-                .streamLines(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
+                .streamLinesMapped(line -> line.split(": ")) // [0]=gameIdString [1]=gameCubeSetsString
                 .mapToInt(splitLine -> streamIndividualCubeCounts(splitLine[1])
                         .collect(
                                 groupingBy(

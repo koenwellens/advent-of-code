@@ -38,14 +38,14 @@ class Day07 {
 
     private static Long totalWinnings(Input input) {
         AtomicLong rankGenerator = new AtomicLong(1);
-        return input.streamLines(handAndBidLine -> parseHand(handAndBidLine, false))
+        return input.streamLinesMapped(handAndBidLine -> parseHand(handAndBidLine, false))
                 .sorted()
                 .reduce(0L, (acc, hand) -> acc + hand.bid() * rankGenerator.getAndIncrement(), Long::sum);
     }
 
     private static Long totalWinningsWithJokers(Input input) {
         AtomicLong rankGenerator = new AtomicLong(1);
-        return input.streamLines(handAndBidLine -> parseHand(handAndBidLine, true))
+        return input.streamLinesMapped(handAndBidLine -> parseHand(handAndBidLine, true))
                 .sorted()
                 .reduce(0L, (acc, hand) -> acc + hand.bid() * rankGenerator.getAndIncrement(), Long::sum);
     }
