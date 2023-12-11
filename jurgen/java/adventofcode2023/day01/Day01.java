@@ -52,7 +52,7 @@ class Day01 {
 
     private static int sumOfCalibrationValues(Function<String, Integer> lineCalibrationValueParser, Input calibrationDocument) {
         return calibrationDocument
-                .streamLinesToInt(lineCalibrationValueParser)
+                .streamLinesMappedToInt(lineCalibrationValueParser)
                 .sum();
     }
 

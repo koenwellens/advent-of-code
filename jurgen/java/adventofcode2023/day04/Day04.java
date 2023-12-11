@@ -27,7 +27,7 @@ class Day04 {
 
     private static long sumOfScratchCardScores(Input allScratchCardsInput) {
         return allScratchCardsInput
-                .streamLinesToLong(Day04::parseAndCalculateScratchCardScore)
+                .streamLinesMappedToLong(Day04::parseAndCalculateScratchCardScore)
                 .sum();
     }
 
