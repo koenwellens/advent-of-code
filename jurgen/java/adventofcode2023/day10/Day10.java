@@ -1,6 +1,7 @@
 package adventofcode2023.day10;
 
 import adventofcode2023.common.Input;
+import adventofcode2023.common.model.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -192,9 +193,6 @@ class Day10 {
         }
     }
 
-    record Coordinate(int x, int y) {
-    }
-
     enum Direction {
 
         UP(0, -1),
@@ -210,7 +208,7 @@ class Day10 {
         }
 
         Coordinate applyTo(Coordinate coordinate) {
-            return new Coordinate(coordinate.x + deltaX, coordinate.y + deltaY);
+            return new Coordinate(coordinate.x() + deltaX, coordinate.y() + deltaY);
         }
     }
 
@@ -240,10 +238,10 @@ class Day10 {
             this.pipes = pipes.stream()
                     .collect(toMap(Pipe::coordinate, Function.identity()));
             this.loopStartNode = loopStartNode;
-            AtomicInteger minX = new AtomicInteger(loopStartNode.x);
-            AtomicInteger maxX = new AtomicInteger(loopStartNode.x);
-            AtomicInteger minY = new AtomicInteger(loopStartNode.y);
-            AtomicInteger maxY = new AtomicInteger(loopStartNode.y);
+            AtomicInteger minX = new AtomicInteger(loopStartNode.x());
+            AtomicInteger maxX = new AtomicInteger(loopStartNode.x());
+            AtomicInteger minY = new AtomicInteger(loopStartNode.y());
+            AtomicInteger maxY = new AtomicInteger(loopStartNode.y());
             this.pipes.keySet()
                     .forEach(pipe -> {
                         minX.getAndAccumulate(pipe.x(), Math::min);
