@@ -29,7 +29,7 @@ public class Input {
     }
 
     public <T> Stream<T> streamLinesMapped(Function<String, T> lineParser) {
-        return streamLines().map(lineParser);
+        return streamLines().parallel().map(lineParser);
     }
 
     public <T> Stream<T> streamLinesFlatMapped(Function<String, Stream<T>> lineParser) {
