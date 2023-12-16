@@ -13,7 +13,7 @@ public class Input {
     }
 
     private final String name;
-    private final String rawData;
+    public final String rawData;
 
     private Input(String name, String rawData) {
         this.name = name;
