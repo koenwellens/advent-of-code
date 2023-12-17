@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class CollectionUtils {
@@ -11,6 +12,12 @@ public final class CollectionUtils {
     public static <T> Stream<T> streamOfAll(Collection<? extends T>... collections) {
         return Arrays.stream(collections)
                 .flatMap(Collection::stream);
+    }
+
+    @SafeVarargs
+    public static <T> Stream<T> streamOfAll(Stream<? extends T>... streams) {
+        return Arrays.stream(streams)
+                .flatMap(Function.identity());
     }
 
     @SafeVarargs
