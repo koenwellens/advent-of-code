@@ -24,4 +24,9 @@ public final class TheGalaxy implements Galaxy {
     public long shortestDistanceTo(final Galaxy galaxy) {
         return Math.abs(galaxy.x() - x) + Math.abs(galaxy.y() - y);
     }
+
+    @Override
+    public void print() {
+        System.out.println("(" + x + ", " + y + ")");
+    }
 }

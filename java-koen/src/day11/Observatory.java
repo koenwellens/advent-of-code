@@ -2,6 +2,7 @@ package day11;
 
 import common.AbstractObjectBasedOnInput;
 
+import java.util.Comparator;
 import java.util.List;
 
 public final class Observatory extends AbstractObjectBasedOnInput<Long> {
@@ -11,12 +12,13 @@ public final class Observatory extends AbstractObjectBasedOnInput<Long> {
 
     @Override
     public Long run() {
-        return computeSumOfShortestDistances(2);
+        return computeSumOfShortestDistances(10);
     }
 
     private long computeSumOfShortestDistances(final int galaxiesDistance) {
         final var galaxies = new RealGalaxiesParser(textLines, galaxiesDistance).value();
         var result = 0L;
+        galaxies.stream().sorted(Comparator.comparing(Galaxy::y).thenComparing(Galaxy::x)).forEach(Galaxy::print);
         for (var index = 0; index < galaxies.size(); index++) {
             for (var next = index + 1; next < galaxies.size(); next++) {
                 result += galaxies.get(index).shortestDistanceTo(galaxies.get(next));

@@ -7,4 +7,6 @@ public interface Galaxy {
     long y();
 
     long shortestDistanceTo(Galaxy galaxy);
+
+    void print();
 }
