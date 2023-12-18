@@ -19,12 +19,15 @@ public class Runner {
         System.out.println("Running solution for " + runnerConfig.getPuzzleName());
         runnerConfig.getRunConfigs()
                 .forEach(runConfig -> {
+                    long startTime = System.currentTimeMillis();
                     Object result = runConfig.solution().apply(runConfig.input());
+                    long endTime = System.currentTimeMillis();
+
                     boolean success = result != null && result.equals(runConfig.expectedResult());
                     System.out.println(
                             success
-                                    ? "\t✅ Running " + runnerConfig.getPuzzleName() + " " + runConfig.name() + " with [" + runConfig.input().getName() + "] yielded expected result [" + result + "]"
-                                    : "\t❌ Running " + runnerConfig.getPuzzleName() + " " + runConfig.name() + " with [" + runConfig.input().getName() + "] yielded wrong result [" + result + "]. Expected [" + runConfig.expectedResult() + "]");
+                                    ? "\t✅ Running " + runnerConfig.getPuzzleName() + " " + runConfig.name() + " with [" + runConfig.input().getName() + "] yielded expected result [" + result + "] (execution time: " + (endTime - startTime) + "ms)"
+                                    : "\t❌ Running " + runnerConfig.getPuzzleName() + " " + runConfig.name() + " with [" + runConfig.input().getName() + "] yielded wrong result [" + result + "]. Expected [" + runConfig.expectedResult() + "] (execution time: " + (endTime - startTime) + "ms)");
                 });
     }
 
