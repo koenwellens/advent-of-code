@@ -1,4 +1,4 @@
 package adventofcode2023.common.model;
 
-public class Vector {
+public record Vector(int vx, int vy) {
 }
