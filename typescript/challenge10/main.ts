@@ -170,32 +170,32 @@ const enclosedByTop = (mappedPipes, x, y) => {
 const isOutsideOfTheLoop = (mappedPipes, x, y) => {
     let left = 0;
     for (let l = 0; l < x; l++) {
-        if (!isNaN(+mappedPipes[y][l])) {
+        if (mappedPipes[y][l] === '|') {
             left++;
         }
     }
 
     let right = 0;
     for (let r = x + 1; r < mappedPipes[y].length; r++) {
-        if (!isNaN(+mappedPipes[y][r])) {
+        if (mappedPipes[y][r] === '|') {
             right++;
         }
     }
 
     let top = 0;
     for (let t = 0; t < y; t++) {
-        if (!isNaN(+mappedPipes[t][x])) {
+        if (mappedPipes[t][x] === '-') {
             top++;
         }
     }
 
     let bottom = 0;
     for (let b = y + 1; b < mappedPipes.length; b++) {
-        if (!isNaN(+mappedPipes[b][x])) {
+        if (mappedPipes[b][x] === '-') {
             bottom++;
         }
     }
-    return left % 2 === 0 && right % 2 === 0 && top % 2 === 0 && bottom % 2 === 0;
+    return false;
 }
 
 const computeNumberOfEnclosedTiles = lines => {
@@ -207,7 +207,6 @@ const computeNumberOfEnclosedTiles = lines => {
 
     let stillRunning = true;
     while (stillRunning) {
-        // console.log(startingPoint, result);
         stillRunning = false;
         for (let y = 0; y < lines.length; y++) {
             for (let x = 0; x < lines[y].length; x++) {
