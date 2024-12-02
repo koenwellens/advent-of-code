@@ -6,4 +6,7 @@ public record Coordinate(int x, int y) {
         return Math.abs(other.x - x) + Math.abs(other.y - y);
     }
 
+    public Coordinate apply(Vector vector) {
+        return new Coordinate(x + vector.vx(), y + vector.vy());
+    }
 }

@@ -1,6 +1,7 @@
 package adventofcode2023.common;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -46,5 +47,18 @@ public class Input {
 
     public String getName() {
         return name;
+    }
+
+    public Stream<InputChar> chars() {
+        // not parallel safe
+        AtomicInteger lineIndexer = new AtomicInteger();
+        AtomicInteger linePositionIndexer = new AtomicInteger();
+        return Arrays.stream(lines())
+                .flatMap(line -> {
+                    int lineNr = lineIndexer.getAndIncrement();
+                    linePositionIndexer.set(0);
+                    return Arrays.stream(line.split(""))
+                            .map(charStr -> new InputChar(lineNr, linePositionIndexer.getAndIncrement(), charStr));
+                });
     }
 }
