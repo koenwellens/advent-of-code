@@ -14,4 +14,12 @@ public class Input {
             throw new RuntimeException(e);
         }
     }
+
+    public static String readString(Path path) {
+        try {
+            return Files.readString(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
