@@ -39,7 +39,7 @@ console.log('example 1', algorithm1(exampleInput));
 console.log('input 1', algorithm1(input));
 
 // 31
-console.log('example 1', algorithm2(exampleInput));
+console.log('example 2', algorithm2(exampleInput));
 // 24941624
-console.log('input 1', algorithm2(input));
+console.log('input 2', algorithm2(input));
 
