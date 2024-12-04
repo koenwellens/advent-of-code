@@ -11,7 +11,7 @@ class D04 {
         run("XMAS word count", D04::xmasWordSearch, "example.txt", 18L);
         run("XMAS word count", D04::xmasWordSearch, "input.txt", 2571L);
         run("X-MAS cross count", D04::xmasCrossSearch, "example.txt", 9L);
-        run("X-MAS cross count", D04::xmasCrossSearch, "input.txt", 9L);
+        run("X-MAS cross count", D04::xmasCrossSearch, "input.txt", 1992L);
     }
 
     private static Long xmasWordSearch(Path path) {
@@ -72,7 +72,7 @@ class D04 {
     private static long searchXmasCrossStartingFromAInTheCenter(String[][] puzzle, int line, int column) {
         long xmasCrossCount = 0;
 
-        int productOfMAndSBytes = 77 * 83;
+        int productOfMAndSBytes = "M".getBytes()[0] * "S".getBytes()[0];
         if (puzzle[line - 1][column - 1].getBytes()[0] * puzzle[line + 1][column + 1].getBytes()[0] == productOfMAndSBytes
                 && puzzle[line + 1][column - 1].getBytes()[0] * puzzle[line - 1][column + 1].getBytes()[0] == productOfMAndSBytes)
             xmasCrossCount++;
