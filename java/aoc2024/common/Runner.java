@@ -12,7 +12,7 @@ public class Runner {
 
     private static <T> void printResultMessage(String message, String fileName, T expectedResult, T result) {
         String icon = result.equals(expectedResult) ? "✅" : "❌";
-        System.out.printf("%s for %s is: %s expected: %s %s%n", message, fileName, result, expectedResult, icon);
+        System.out.printf("%s for %s is %s  --  expected: %s %s%n", message, fileName, result, expectedResult, icon);
     }
 
     private static <T> Path calculatePath(Function<Path, T> solution, String fileName) {
