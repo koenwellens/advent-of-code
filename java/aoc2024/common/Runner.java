@@ -6,13 +6,15 @@ import java.util.function.Function;
 public class Runner {
     public static <T> void run(String message, Function<Path, T> solution, String fileName, T expectedResult) {
         Path inputFilePath = calculatePath(solution, fileName);
+        long startTime = System.currentTimeMillis();
         T result = solution.apply(inputFilePath);
-        printResultMessage(message, fileName, expectedResult, result);
+        long endTime = System.currentTimeMillis();
+        printResultMessage(message, fileName, expectedResult, result, endTime - startTime);
     }
 
-    private static <T> void printResultMessage(String message, String fileName, T expectedResult, T result) {
+    private static <T> void printResultMessage(String message, String fileName, T expectedResult, T result, long duration) {
         String icon = result.equals(expectedResult) ? "✅" : "❌";
-        System.out.printf("%s for %s is %s  --  expected: %s %s%n", message, fileName, result, expectedResult, icon);
+        System.out.printf("%s for %s is %s  --  expected: %s %s  --  (%sms)%n", message, fileName, result, expectedResult, icon, duration);
     }
 
     private static <T> Path calculatePath(Function<Path, T> solution, String fileName) {
