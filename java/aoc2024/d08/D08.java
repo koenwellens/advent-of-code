@@ -10,10 +10,12 @@ import static aoc2024.common.Runner.run;
 
 public class D08 {
     public static void main(String[] args) {
-        run("Number of unique antinode locations", D08::countNumberOfUniqueAntinodeLocations, "example.txt", 14);
-        run("Number of unique antinode locations", D08::countNumberOfUniqueAntinodeLocations, "input.txt", 308);
-        run("Number of unique antinode locations with harmonics", D08::countNumberOfUniqueAntinodeLocationsWithHarmonics, "example.txt", 34);
-        run("Number of unique antinode locations with harmonics", D08::countNumberOfUniqueAntinodeLocationsWithHarmonics, "input.txt", 1147);
+        run("Number of unique antinode locations", D08::countNumberOfUniqueAntinodeLocations,
+                "example.txt", 14,
+                "input.txt", 308);
+        run("Number of unique antinode locations with harmonics", D08::countNumberOfUniqueAntinodeLocationsWithHarmonics,
+                "example.txt", 34,
+                "input.txt", 1147);
     }
 
     private static int countNumberOfUniqueAntinodeLocations(Path path) {
@@ -85,15 +87,6 @@ public class D08 {
                 });
 
         return antiNodeLocations.size();
-    }
-
-    private static void addAntiNodeLocations(List<Location> nodeLocations, Set<Location> antinodeCollector) {
-        if (nodeLocations.size() < 2) {
-            throw new IllegalArgumentException("Number of node locations is too small");
-        }
-        if (nodeLocations.size() == 2) {
-
-        }
     }
 
     record Location(int x, int y) {

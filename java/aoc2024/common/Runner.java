@@ -4,6 +4,15 @@ import java.nio.file.Path;
 import java.util.function.Function;
 
 public class Runner {
+
+
+    public static <T> void run(String message, Function<Path, T> solution,
+                               String fileName1, T expectedResult1,
+                               String fileName2, T expectedResult2) {
+        run(message, solution, fileName1, expectedResult1);
+        run(message, solution, fileName2, expectedResult2);
+    }
+
     public static <T> void run(String message, Function<Path, T> solution, String fileName, T expectedResult) {
         Path inputFilePath = calculatePath(solution, fileName);
         long startTime = System.currentTimeMillis();
