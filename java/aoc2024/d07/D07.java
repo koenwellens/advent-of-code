@@ -13,8 +13,8 @@ public class D07 {
     public static void main(String[] args) {
         run("Total calibration result", D07::totalCalibrationResultWithConcatNotAllowed, "example.txt", 3749L);
         run("Total calibration result", D07::totalCalibrationResultWithConcatNotAllowed, "input.txt", 6083020304036L);
-        run("Total calibration result", D07::totalCalibrationResultWithConcatAllowed, "example.txt", 11387L);
-        run("Total calibration result", D07::totalCalibrationResultWithConcatAllowed, "input.txt", 59002246504791L);
+        run("Total calibration result with concatenation", D07::totalCalibrationResultWithConcatAllowed, "example.txt", 11387L);
+        run("Total calibration result with concatenation", D07::totalCalibrationResultWithConcatAllowed, "input.txt", 59002246504791L);
     }
 
     private static Long totalCalibrationResultWithConcatNotAllowed(Path path) {
