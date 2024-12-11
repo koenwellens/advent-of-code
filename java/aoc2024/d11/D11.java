@@ -31,24 +31,31 @@ public class D11 {
     private static Long numberOfStonesAfterBlinkingIterations(Path path, int iterations) {
         String[] arrangement = readString(path).split(" ");
         long numberOfStones = 0;
+        int[] stats = new int[2];
         for (int i = 0; i < arrangement.length; i++) {
             long stone = Long.parseLong(arrangement[i]);
-            numberOfStones += calculateNumberOfStones(stone, iterations, new HashMap<>());
+            numberOfStones += calculateNumberOfStones(stone, iterations, new HashMap<>(), stats);
         }
+        System.out.println("stone-blinks executed: " + stats[0]);
+        System.out.println("cache hits: " + stats[1]);
         return numberOfStones;
     }
 
-    private static long calculateNumberOfStones(long stone, int blinks, Map<StoneBlink, Long> cache) {
+    private static long calculateNumberOfStones(long stone, int blinks, Map<StoneBlink, Long> cache, int[] stats) {
+        stats[0]++; // count calculations
+
         if (blinks == 0)
             return 1;
 
         StoneBlink stoneBlink = new StoneBlink(stone, blinks);
-        if (cache.containsKey(stoneBlink))
+        if (cache.containsKey(stoneBlink)) {
+            stats[1]++;
             return cache.get(stoneBlink);
+        }
 
         long numberOfStones;
         if (stone == 0) {
-            numberOfStones = calculateNumberOfStones(1, blinks - 1, cache);
+            numberOfStones = calculateNumberOfStones(1, blinks - 1, cache, stats);
         } else {
             int length = (int) (Math.log10(stone) + 1);
             if (length % 2 == 0) {
@@ -56,10 +63,10 @@ public class D11 {
                 for (int i = 0; i < length / 2; i++) {
                     factor *= 10;
                 }
-                numberOfStones = calculateNumberOfStones(stone / factor, blinks - 1, cache)
-                        + calculateNumberOfStones(stone % factor, blinks - 1, cache);
+                numberOfStones = calculateNumberOfStones(stone / factor, blinks - 1, cache, stats)
+                        + calculateNumberOfStones(stone % factor, blinks - 1, cache, stats);
             } else {
-                numberOfStones = calculateNumberOfStones(stone * 2024, blinks - 1, cache);
+                numberOfStones = calculateNumberOfStones(stone * 2024, blinks - 1, cache, stats);
             }
         }
 
@@ -70,4 +77,5 @@ public class D11 {
 
     public record StoneBlink(long stone, int remainingBlinks) {
     }
+
 }
