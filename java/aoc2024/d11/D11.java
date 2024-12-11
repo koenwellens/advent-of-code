@@ -14,7 +14,7 @@ public class D11 {
                 "example.txt", 55312L
                 , "input.txt", 198075L
         );
-        run("Number of stones after blinking 25 times", D11::numberOfStonesAfterBlinking75Times,
+        run("Number of stones after blinking 75 times", D11::numberOfStonesAfterBlinking75Times,
                 "example.txt", 65601038650482L
                 , "input.txt", 235571309320764L
         );
