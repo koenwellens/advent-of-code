@@ -5,6 +5,11 @@ import java.util.function.Function;
 
 public class Runner {
 
+    public static <T> void run(String message, Function<Path, T> solution, Run<T>... runs) {
+        for (Run<T> run : runs) {
+            run(message, solution, run.fileName, run.expectedResult);
+        }
+    }
 
     public static <T> void run(String message, Function<Path, T> solution,
                                String fileName1, T expectedResult1,
@@ -19,6 +24,12 @@ public class Runner {
         T result = solution.apply(inputFilePath);
         long endTime = System.currentTimeMillis();
         printResultMessage(message, fileName, expectedResult, result, endTime - startTime);
+    }
+
+    public record Run<T>(String fileName, T expectedResult) {
+        public static <T> Run<T> r(String fileName, T expectedResult) {
+            return new Run<>(fileName, expectedResult);
+        }
     }
 
     private static <T> void printResultMessage(String message, String fileName, T expectedResult, T result, long duration) {

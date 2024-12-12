@@ -49,7 +49,7 @@ public class D11 {
 
         StoneBlink stoneBlink = new StoneBlink(stone, blinks);
         if (cache.containsKey(stoneBlink)) {
-            stats[1]++;
+            stats[1]++; // count cache hits
             return cache.get(stoneBlink);
         }
 
