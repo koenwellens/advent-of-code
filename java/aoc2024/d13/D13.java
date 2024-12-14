@@ -29,14 +29,14 @@ public class D13 {
     private static final int bCost = 1;
 
     private static long fewestTokensToWinAllPrizes(Path path) {
-        return fewestTokensToWinAllPrizes(path, false);
+        return fewestTokensToWinAllPrizesWithOption(path, false);
     }
 
     private static long fewestTokensToWinAllPrizesButLarger(Path path) {
-        return fewestTokensToWinAllPrizes(path, true);
+        return fewestTokensToWinAllPrizesWithOption(path, true);
     }
 
-    private static long fewestTokensToWinAllPrizes(Path path, boolean larger) {
+    private static long fewestTokensToWinAllPrizesWithOption(Path path, boolean larger) {
         return Input.streamInputLines(path)
                 .filter(line -> !line.isEmpty())
                 .gather(Gatherers.windowFixed(3))

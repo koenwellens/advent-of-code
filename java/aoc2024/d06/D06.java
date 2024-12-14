@@ -16,6 +16,7 @@ public class D06 {
         run("Number of distinct positions visited by guard", D06::countDistinctPositionsVisited, "example.txt", 41);
         run("Number of distinct positions visited by guard", D06::countDistinctPositionsVisited, "input.txt", 4973);
 //        run("Number of distinct positions visited by guard", D06::countPossibleWaysToCreateLoop, "example.txt", 6);
+        System.err.println("Part 2 not solved");
     }
 
     private static int countPossibleWaysToCreateLoop(Path path) {

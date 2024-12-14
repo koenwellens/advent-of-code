@@ -53,7 +53,6 @@ class D01 {
                     secondColIdOccurrences.merge(parseInt(couple[1]), 1, Integer::sum);
                 });
 
-        Iterator<Integer> firstIterator = firstColIds.iterator();
         int similarity = 0;
         for (Integer id : firstColIds) {
             similarity += id * secondColIdOccurrences.getOrDefault(id, 0);
